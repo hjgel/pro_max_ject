@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 이동시키기</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+</head>
+<body>
+<div id="map" style="width:100%;height:100vh;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=[JavaScript_KEY]"></script>
+<script>
+    var mapContainer = document.getElementById('map');
+    var pos = new kakao.maps.LatLng(33.450701, 126.570667);
+    var mapOption = { center: pos, level: 2 };
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    var marker = new kakao.maps.Marker({position: pos});
+
+    const run = (lat,long) => {
+        marker.setMap(null)
+        var moveLatLon = new kakao.maps.LatLng(lat, long);
+        marker = new kakao.maps.Marker({position: moveLatLon});
+        map.setCenter(moveLatLon);
+        marker.setMap(map);
+    }
+</script>
+</body>
+</html>

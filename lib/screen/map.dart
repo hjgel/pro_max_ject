@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pro_max_ject/screen/widget/IndexProvider.dart';
+import 'package:pro_max_ject/screen/widgetmain.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MapPage());
@@ -38,7 +41,7 @@ class _TestViewState extends State<TestView> {
     // Handle the navigation logic here
     switch (index) {
       case 0:
-      // Handle home tap
+        FigmaToCodeApp();
         break;
       case 1:
       // Handle search tap

@@ -4,6 +4,8 @@ import 'package:pro_max_ject/main.dart';
 import 'package:pro_max_ject/screen/map.dart';
 import 'package:pro_max_ject/screen/myPage.dart';
 import 'package:pro_max_ject/screen/reminder.dart';
+import 'package:pro_max_ject/screen/widget/IndexProvider.dart';
+import 'package:provider/provider.dart';
 
 class FigmaToCodeApp extends StatelessWidget {
   const FigmaToCodeApp({super.key});
@@ -28,20 +30,20 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  int _selectedIndex = 0; // 현재 선택된 인덱스
-
-  final List<Widget> screens = [
-    FigmaToCodeApp(),
-    Reminder(),
-    MapPage(),
-    MyPage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index; // 선택된 인덱스 업데이트
-    });
-  }
+  // int _selectedIndex = 0; // 현재 선택된 인덱스
+  //
+  // final List<Widget> screens = [
+  //   FigmaToCodeApp(),
+  //   Reminder(),
+  //   MapPage(),
+  //   MyPage(),
+  // ];
+  //
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index; // 선택된 인덱스 업데이트
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,13 @@ class _MainState extends State<Main> {
                   left: 353,
                   top: 48,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<IndexProvider>().setIndex(2);
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Reminder()),
+                      );
+                    },
                     child: const Icon(
                       Icons.notifications,
                       color: Color(0xEF537052),
@@ -142,6 +150,11 @@ class _MainState extends State<Main> {
                   top: 300,
                   child: InkWell(
                     onTap: () {
+                      context.read<IndexProvider>().setIndex(0);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapPage()),
+                      );  // MyApp에다가 다음 페이지 설정
 
                     }, // 버튼
                     child: Container(
@@ -269,7 +282,13 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     child: InkWell(
-                      onTap: () {}, // 버튼 구현
+                      onTap: () {
+                        context.read<IndexProvider>().setIndex(2);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Reminder()),
+                        );
+                      }, // 버튼 구현
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -308,7 +327,13 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     child: InkWell(
-                      onTap: () {}, // 버튼 구현
+                      onTap: () {
+                        context.read<IndexProvider>().setIndex(2);
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Reminder()),
+                        );// 버튼 구현
+                      }, // 버튼 구현
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
