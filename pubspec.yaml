@@ -66,6 +66,12 @@ dependencies:
   open_settings: ^2.0.2
   app_settings: ^4.1.0
   intl: ^0.19.0
+  flutter_kakao_maps_sdk: ^0.3.0
+  fluttertoast: ^8.2.8
+  url_launcher: ^6.3.0
+  xml: ^6.5.0
+  get: ^4.6.6
+  dio: ^5.6.0
 
 dev_dependencies:
   flutter_test:

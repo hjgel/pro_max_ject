@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:location/location.dart';
+import 'package:pro_max_ject/screen/map_navi.dart';
 
 void main() {
   runApp(const MapPage());
@@ -44,6 +45,7 @@ class _TestViewState extends State<TestView> {
   void initState() {
     super.initState();
     _locateMe(); // 현재 위치를 가져와 지도에 마커를 찍고, 지도 중심을 이동
+
   }
 
   Future<void> _locateMe() async {
@@ -103,6 +105,10 @@ class _TestViewState extends State<TestView> {
             icon: const Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
               // 알림 버튼 클릭 시 동작
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Map_naviPage()),
+              );
             },
           ),
         ],
@@ -114,11 +120,13 @@ class _TestViewState extends State<TestView> {
             child: KakaoMap(
               onMapCreated: (controller) {
                 mapController = controller;
+
                 // 지도 생성 후 현재 위치 가져오기
                 _locateMe();
               },
               markers: markers.toList(),
               center: LatLng(lat, lng), // 초기 위치는 현재 위치
+
             ),
           ),
           Padding(
