@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:location/location.dart';
 
 void main() {
   runApp(SosWidget());
@@ -22,6 +24,55 @@ class SosPage extends StatefulWidget {
 }
 
 class _SosPageState extends State<SosPage> {
+  double lat = 0;
+  double lng = 0;
+  Location location = Location();
+  Set<Marker> markers = {};
+  late KakaoMapController mapController;
+
+  @override
+  void initState() {
+    super.initState();
+    _locateMe();
+  }
+
+  Future<void> _locateMe() async {
+    bool _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    PermissionStatus _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final locationData = await location.getLocation();
+    setState(() {
+      lat = locationData.latitude!;
+      lng = locationData.longitude!;
+      LatLng currentLatLng = LatLng(lat, lng);
+
+      markers.add(
+        Marker(
+          markerId: UniqueKey().toString(),
+          latLng: currentLatLng,
+        ),
+      );
+
+      if (mapController != null) {
+        mapController.setCenter(currentLatLng);
+      }
+    });
+  }
+
+
   int _selectedIndex = 0; // 현재 선택된 인덱스
 
   void _onItemTapped(int index) {
@@ -74,8 +125,16 @@ class _SosPageState extends State<SosPage> {
           Column(
             children: [
               Expanded(
-                child: Center(
-                  child: Text('지도는 여기에 표시됩니다.'),
+                child: KakaoMap(
+                  onMapCreated: (controller) {
+                    mapController = controller;
+
+                    // 지도 생성 후 현재 위치 가져오기
+                    _locateMe();
+                  },
+                  markers: markers.toList(),
+                  center: LatLng(lat, lng), // 초기 위치는 현재 위치
+
                 ),
               ),
               Container(
@@ -140,31 +199,6 @@ class _SosPageState extends State<SosPage> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white, // 하단 네비게이션 바의 배경색
-        selectedItemColor: Color(0xEF537052), // 선택된 아이템의 색상
-        unselectedItemColor: Colors.grey, // 선택되지 않은 아이템의 색상
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '검색',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: '메뉴',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '마이페이지',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }

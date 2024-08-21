@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pro_max_ject/screen/sos.dart';
 import 'package:provider/provider.dart';
 
 import '../map.dart';
@@ -47,8 +48,8 @@ class _MainScreenState extends State<MainScreen> {
             label: '홈',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '검색',
+            icon: Icon(Icons.notifications),
+            label: '알림',
           ),
 
           BottomNavigationBarItem(
